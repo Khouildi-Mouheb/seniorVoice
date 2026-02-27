@@ -17,13 +17,10 @@ class NLPPipeline:
         self.extractor = EntityExtractor(use_llm=use_llm)
 
     def process(self, input: TextInput) -> Command:
-        # Step 1 — clean the raw text
         cleaned = self.preprocessor.clean(input.raw_text)
 
-        # Step 2 — classify intent
         intent = self.classifier.predict(cleaned)
 
-        # Step 3 — extract entities based on intent
         entities = self.extractor.extract(cleaned, intent)
 
         return Command(intent=intent, entities=entities)
